@@ -1,0 +1,3311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Python Lists | أكاديمية البرمجة</title>
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ===================================================== */
+
+        :root {
+            --bg: #f5efe4;
+            --bg2: #eee4d3;
+            --white: #fffdf9;
+
+            --brown-950: #1b120d;
+            --brown-900: #241710;
+            --brown-800: #342219;
+            --brown-700: #4b3022;
+            --brown-600: #674532;
+
+            --gold: #c49a45;
+            --gold-light: #e7cc8b;
+            --gold-dark: #94702d;
+
+            --text: #2d211a;
+            --muted: #77685d;
+
+            --green: #477052;
+            --red: #a84b4b;
+
+            --border: rgba(92, 63, 39, .14);
+
+            --shadow:
+                0 25px 70px rgba(48, 31, 20, .10);
+
+            --radius: 26px;
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Arial,
+                sans-serif;
+
+            color: var(--text);
+            line-height: 1.9;
+
+            background:
+                radial-gradient(
+                    circle at 8% 8%,
+                    rgba(196,154,69,.15),
+                    transparent 24%
+                ),
+                radial-gradient(
+                    circle at 90% 30%,
+                    rgba(103,69,50,.12),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    180deg,
+                    var(--bg),
+                    #f9f5ee
+                );
+
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: white;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           DECORATION
+        ===================================================== */
+
+        .orb {
+            position: fixed;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            filter: blur(90px);
+
+            opacity: .15;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+        .orb.one {
+            top: 10%;
+            right: -150px;
+            background: var(--gold);
+        }
+
+        .orb.two {
+            bottom: 10%;
+            left: -150px;
+            background: var(--brown-600);
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+            min-height: 680px;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            overflow: hidden;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(196,154,69,.16),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    #18100c,
+                    #2b1a12 48%,
+                    #17100c
+                );
+        }
+
+        header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 700px;
+            height: 700px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(231,204,139,.12);
+
+            right: -300px;
+            top: -300px;
+        }
+
+        header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(231,204,139,.08);
+
+            left: -250px;
+            bottom: -250px;
+        }
+
+        .hero {
+            width: min(1180px, 90%);
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                1.1fr .9fr;
+
+            gap: 80px;
+
+            align-items: center;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .hero-text {
+            animation: heroIn 1s ease both;
+        }
+
+        @keyframes heroIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .academy-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 8px 17px;
+
+            border-radius: 50px;
+
+            border:
+                1px solid
+                rgba(231,204,139,.3);
+
+            background:
+                rgba(255,255,255,.05);
+
+            color: var(--gold-light);
+
+            font-size: 13px;
+
+            margin-bottom: 24px;
+        }
+
+        .academy-badge i {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--gold);
+
+            box-shadow:
+                0 0 15px var(--gold);
+        }
+
+        .hero h1 {
+            font-size:
+                clamp(45px, 6vw, 78px);
+
+            line-height: 1.08;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: var(--gold-light);
+        }
+
+        .hero-description {
+            color: #d6c9be;
+
+            font-size: 18px;
+
+            max-width: 680px;
+
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+
+            gap: 13px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+
+            border-radius: 14px;
+
+            font-weight: 700;
+
+            transition: .3s;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+        }
+
+        .btn-primary {
+            color: var(--brown-950);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ead08f,
+                    #b78932
+                );
+
+            box-shadow:
+                0 15px 35px
+                rgba(196,154,69,.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+        }
+
+        .btn-secondary {
+            border:
+                1px solid
+                rgba(255,255,255,.16);
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.04);
+        }
+
+        .btn-secondary:hover {
+            background:
+                rgba(255,255,255,.1);
+        }
+
+
+        /* =====================================================
+           HERO CODE
+        ===================================================== */
+
+        .code-window {
+            padding: 24px;
+
+            border-radius: 25px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.13);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.1),
+                    rgba(255,255,255,.035)
+                );
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 40px 100px
+                rgba(0,0,0,.35);
+
+            animation:
+                floatWindow 4s ease-in-out infinite;
+        }
+
+        @keyframes floatWindow {
+
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+        }
+
+        .window-bar {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .dots {
+            display: flex;
+
+            gap: 6px;
+        }
+
+        .dots i {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #8b7768;
+        }
+
+        .file-name {
+            color: #bcae9f;
+
+            font-size: 12px;
+        }
+
+        .hero-code {
+            direction: ltr;
+
+            text-align: left;
+
+            color: #ead7aa;
+
+            font-family: Consolas, monospace;
+
+            font-size: 15px;
+
+            line-height: 2;
+
+            white-space: pre-wrap;
+        }
+
+        .gold-code {
+            color: #e6c56e;
+        }
+
+        .green-code {
+            color: #a9c99e;
+        }
+
+        .blue-code {
+            color: #a5c2d9;
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        nav {
+            position: sticky;
+
+            top: 12px;
+
+            z-index: 1000;
+
+            width: min(1160px, 94%);
+
+            margin: -32px auto 45px;
+
+            padding: 10px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.92);
+
+            backdrop-filter: blur(18px);
+
+            border:
+                1px solid
+                var(--border);
+
+            box-shadow: var(--shadow);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 5px;
+
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            padding: 9px 13px;
+
+            border-radius: 12px;
+
+            color: var(--brown-700);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: .25s;
+
+            white-space: nowrap;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--brown-800),
+                    var(--brown-600)
+                );
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        main {
+            width: min(1100px, 90%);
+
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           SECTIONS
+        ===================================================== */
+
+        section {
+            position: relative;
+
+            background:
+                rgba(255,255,255,.78);
+
+            backdrop-filter: blur(15px);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                var(--radius);
+
+            padding: 42px;
+
+            margin-bottom: 30px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            /*
+               مهم:
+               ألغينا opacity:0
+               حتى لا تختفي الصفحة إذا لم يعمل JS.
+            */
+
+            opacity: 1;
+
+            transform: translateY(0);
+
+            transition:
+                opacity .7s ease,
+                transform .7s ease;
+        }
+
+        section.animate {
+            opacity: 0;
+
+            transform:
+                translateY(30px);
+        }
+
+        section.show {
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+        section::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(196,154,69,.07);
+
+            left: -90px;
+            top: -90px;
+
+            pointer-events: none;
+        }
+
+        .section-number {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--brown-900),
+                    var(--brown-600)
+                );
+
+            color: var(--gold-light);
+
+            font-weight: bold;
+
+            margin-bottom: 14px;
+        }
+
+        section h2 {
+            color: var(--brown-900);
+
+            font-size: 30px;
+
+            line-height: 1.3;
+
+            margin-bottom: 15px;
+
+            position: relative;
+        }
+
+        section h2::after {
+            content: "";
+
+            display: block;
+
+            width: 55px;
+            height: 3px;
+
+            margin-top: 10px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--gold),
+                    transparent
+                );
+        }
+
+        section h3 {
+            color: var(--brown-700);
+
+            margin: 28px 0 9px;
+        }
+
+        section p {
+            color: var(--muted);
+        }
+
+
+        /* =====================================================
+           INTRO
+        ===================================================== */
+
+        .intro {
+            text-align: center;
+
+            padding: 55px 40px;
+        }
+
+        .intro h2::after {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tag {
+            display: inline-block;
+
+            padding: 7px 16px;
+
+            border-radius: 50px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold),
+                    var(--gold-dark)
+                );
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 17px;
+        }
+
+        .intro > p {
+            max-width: 760px;
+
+            margin: auto;
+
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           INFO GRID
+        ===================================================== */
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 14px;
+
+            margin-top: 30px;
+        }
+
+        .info-box {
+            padding: 20px 14px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff,
+                    #f4ecde
+                );
+        }
+
+        .info-box strong {
+            display: block;
+
+            font-size: 26px;
+
+            color: var(--brown-900);
+        }
+
+        .info-box span {
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           CONCEPT CARDS
+        ===================================================== */
+
+        .concept-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 17px;
+
+            margin-top: 25px;
+        }
+
+        .concept {
+            padding: 23px;
+
+            border-radius: 20px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff,
+                    #f6eee1
+                );
+
+            transition: .3s;
+        }
+
+        .concept:hover {
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 35px
+                rgba(53,35,23,.10);
+        }
+
+        .concept-icon {
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .concept h3 {
+            margin-top: 0;
+        }
+
+
+        /* =====================================================
+           CODE
+        ===================================================== */
+
+        .code-block {
+            position: relative;
+
+            margin: 18px 0;
+        }
+
+        pre {
+            direction: ltr;
+
+            text-align: left;
+
+            overflow-x: auto;
+
+            padding: 23px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1d130e,
+                    #2c1c14
+                );
+
+            border:
+                1px solid
+                rgba(196,154,69,.16);
+
+            color: #ead8af;
+
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+
+            font-size: 14px;
+
+            line-height: 1.9;
+
+            box-shadow:
+                inset 0 0 35px
+                rgba(0,0,0,.2);
+
+            margin-top: 14px;
+        }
+
+        code {
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+        }
+
+        .copy-code {
+            position: absolute;
+
+            top: 10px;
+
+            left: 10px;
+
+            padding: 7px 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.1);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,.07);
+
+            color: #d9c49b;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            z-index: 2;
+        }
+
+        .copy-code:hover {
+            background:
+                rgba(255,255,255,.15);
+        }
+
+
+        /* =====================================================
+           NOTE
+        ===================================================== */
+
+        .note {
+            display: flex;
+
+            gap: 13px;
+
+            padding: 18px;
+
+            margin: 20px 0;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff9ed,
+                    #f6ead5
+                );
+
+            border-right:
+                4px solid
+                var(--gold);
+
+            color: #66584e;
+        }
+
+        .note-icon {
+            font-size: 21px;
+        }
+
+
+        /* =====================================================
+           INDEX
+        ===================================================== */
+
+        .index-visual {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5,1fr);
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+        .index-item {
+            text-align: center;
+        }
+
+        .index-number {
+            color: var(--gold-dark);
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+        .index-value {
+            padding: 15px 8px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--brown-800),
+                    var(--brown-600)
+                );
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           METHODS
+        ===================================================== */
+
+        .method-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 14px;
+
+            margin-top: 25px;
+        }
+
+        .method {
+            padding: 20px;
+
+            border-radius: 17px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background: #fffdf9;
+
+            transition: .25s;
+        }
+
+        .method:hover {
+            border-color:
+                rgba(196,154,69,.55);
+
+            transform:
+                translateY(-3px);
+        }
+
+        .method-name {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 8px;
+
+            background: #eee2cd;
+
+            color: var(--brown-700);
+
+            direction: ltr;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-weight: bold;
+        }
+
+        .method p {
+            margin-top: 8px;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-scroll {
+            overflow-x: auto;
+
+            margin-top: 22px;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: separate;
+
+            border-spacing: 0;
+
+            overflow: hidden;
+
+            border-radius: 17px;
+
+            border:
+                1px solid
+                var(--border);
+        }
+
+        th,
+        td {
+            padding: 14px;
+
+            text-align: center;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+        th {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--brown-900),
+                    var(--brown-700)
+                );
+
+            color: var(--gold-light);
+        }
+
+        td {
+            background:
+                rgba(255,255,255,.7);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #fff8eb;
+        }
+
+
+        /* =====================================================
+           COMPARISON
+        ===================================================== */
+
+        .comparison {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+            margin-top: 25px;
+        }
+
+        .compare-card {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff,
+                    #f5ecde
+                );
+        }
+
+        .compare-card.highlight {
+            border:
+                2px solid
+                rgba(196,154,69,.55);
+        }
+
+        .compare-card h3 {
+            margin-top: 0;
+        }
+
+        .compare-card ul {
+            list-style: none;
+
+            margin-top: 15px;
+        }
+
+        .compare-card li {
+            padding: 7px 0;
+
+            color: var(--muted);
+        }
+
+        .compare-card li::before {
+            content: "✓";
+
+            color: var(--gold-dark);
+
+            font-weight: bold;
+
+            margin-left: 8px;
+        }
+
+
+        /* =====================================================
+           SPECIAL BOX
+        ===================================================== */
+
+        .special-box {
+            padding: 27px;
+
+            border-radius: 21px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2a1a12,
+                    #43291c
+                );
+
+            color: white;
+
+            margin-top: 22px;
+
+            box-shadow:
+                0 25px 50px
+                rgba(37,23,15,.2);
+        }
+
+        .special-box h3 {
+            color: var(--gold-light);
+
+            margin-top: 0;
+        }
+
+        .special-box p {
+            color: #d2c3b6;
+        }
+
+
+        /* =====================================================
+           NESTED
+        ===================================================== */
+
+        .nested-visual {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 18px;
+
+            margin-top: 25px;
+        }
+
+        .nested-card {
+            padding: 23px;
+
+            border-radius: 19px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background: #fffdf9;
+        }
+
+
+        /* =====================================================
+           ERRORS
+        ===================================================== */
+
+        .error-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 15px;
+
+            margin-top: 22px;
+        }
+
+        .error-card {
+            padding: 20px;
+
+            border-radius: 17px;
+
+            background: #fff8f5;
+
+            border:
+                1px solid
+                rgba(168,75,75,.18);
+        }
+
+        .error-card strong {
+            color: var(--red);
+        }
+
+        .error-card code {
+            direction: ltr;
+
+            display: block;
+
+            margin-top: 8px;
+
+            color: var(--brown-700);
+        }
+
+
+        /* =====================================================
+           EXAMPLES
+        ===================================================== */
+
+        .example-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 18px;
+
+            margin-top: 25px;
+        }
+
+        .example-card {
+            padding: 24px;
+
+            border-radius: 19px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff,
+                    #f7efe2
+                );
+
+            transition: .3s;
+        }
+
+        .example-card:hover {
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 40px
+                rgba(50,32,21,.1);
+        }
+
+        .example-number {
+            display: inline-flex;
+
+            width: 38px;
+            height: 38px;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 11px;
+
+            background:
+                var(--brown-900);
+
+            color:
+                var(--gold-light);
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =====================================================
+           PRACTICE EDITOR
+        ===================================================== */
+
+        .editor {
+            padding: 25px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1a100c,
+                    #342016
+                );
+
+            box-shadow:
+                0 25px 60px
+                rgba(32,20,13,.25);
+        }
+
+        .editor-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color: #d9c6a5;
+
+            margin-bottom: 15px;
+        }
+
+        .editor-header .dots {
+            direction: ltr;
+        }
+
+        textarea {
+            width: 100%;
+
+            min-height: 210px;
+
+            resize: vertical;
+
+            padding: 18px;
+
+            direction: ltr;
+
+            text-align: left;
+
+            background: #100b08;
+
+            color: #e8d5ad;
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+
+            border-radius: 14px;
+
+            outline: none;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            line-height: 1.7;
+        }
+
+        textarea:focus {
+            border-color:
+                var(--gold);
+        }
+
+        .run {
+            margin-top: 14px;
+
+            padding: 12px 22px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            color:
+                var(--brown-950);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e8cb82,
+                    #ad812d
+                );
+
+            transition: .3s;
+        }
+
+        .run:hover {
+            transform:
+                translateY(-3px);
+        }
+
+        #output {
+            margin-top: 15px;
+
+            min-height: 65px;
+
+            padding: 17px;
+
+            border-radius: 13px;
+
+            direction: ltr;
+
+            text-align: left;
+
+            white-space: pre-wrap;
+
+            color: #b7d7a6;
+
+            background: #0d0907;
+
+            font-family:
+                Consolas,
+                monospace;
+        }
+
+
+        /* =====================================================
+           QUIZ
+        ===================================================== */
+
+        .question {
+            padding: 25px;
+
+            margin-top: 18px;
+
+            border-radius: 19px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff,
+                    #f7eee0
+                );
+        }
+
+        .question h3 {
+            margin-top: 0;
+
+            color: var(--brown-900);
+        }
+
+        .answers {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 17px;
+        }
+
+        .answer {
+            padding: 10px 19px;
+
+            border:
+                1px solid
+                #d9c8aa;
+
+            border-radius: 11px;
+
+            background: white;
+
+            color: var(--brown-700);
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: .25s;
+        }
+
+        .answer:hover {
+            background:
+                var(--brown-900);
+
+            color: white;
+
+            transform:
+                translateY(-2px);
+        }
+
+        .answer.selected {
+            pointer-events: none;
+        }
+
+        .result {
+            min-height: 26px;
+
+            margin-top: 12px;
+
+            font-weight: bold;
+        }
+
+        .correct {
+            color: var(--green);
+        }
+
+        .wrong {
+            color: var(--red);
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress-card {
+            margin-top: 30px;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff,
+                    #f4ead9
+                );
+
+            border:
+                1px solid
+                var(--border);
+        }
+
+        .progress-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            color: var(--brown-700);
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 9px;
+
+            border-radius: 20px;
+
+            background: #e5d9c7;
+
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--gold-dark),
+                    var(--gold-light)
+                );
+
+            transition: .5s;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            margin-top: 80px;
+
+            padding: 60px 20px;
+
+            text-align: center;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #170e0a,
+                    #3b2418
+                );
+        }
+
+        .footer-title {
+            font-size: 27px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+        .footer-title span {
+            color: var(--gold-light);
+        }
+
+        footer p {
+            color: #c9bbb0;
+        }
+
+
+        /* =====================================================
+           TOP BUTTON
+        ===================================================== */
+
+        #top {
+            position: fixed;
+
+            bottom: 22px;
+
+            left: 22px;
+
+            width: 48px;
+
+            height: 48px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e1c174,
+                    #9e752b
+                );
+
+            color: var(--brown-950);
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform:
+                translateY(20px);
+
+            transition: .3s;
+
+            z-index: 2000;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,.2);
+        }
+
+        #top.show {
+            opacity: 1;
+
+            visibility: visible;
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width: 950px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+
+                padding: 90px 0;
+            }
+
+            .code-window {
+                max-width: 650px;
+
+                width: 100%;
+
+                margin: auto;
+            }
+
+            .info-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .concept-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            nav {
+                margin-bottom: 30px;
+            }
+
+        }
+
+
+        @media(max-width: 650px) {
+
+            header {
+                min-height: auto;
+            }
+
+            .hero {
+                padding: 75px 0;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            nav {
+                top: 7px;
+
+                padding: 7px;
+
+                gap: 3px;
+            }
+
+            nav a {
+                font-size: 10px;
+
+                padding: 7px 8px;
+            }
+
+            main {
+                width: 92%;
+            }
+
+            section {
+                padding: 27px 20px;
+
+                border-radius: 21px;
+            }
+
+            section h2 {
+                font-size: 25px;
+            }
+
+            .info-grid,
+            .concept-grid,
+            .method-grid,
+            .comparison,
+            .nested-visual,
+            .error-grid,
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .index-visual {
+                grid-template-columns:
+                    repeat(3,1fr);
+            }
+
+            pre {
+                font-size: 12px;
+
+                padding: 17px;
+            }
+
+            .note {
+                align-items: flex-start;
+            }
+
+            #top {
+                width: 44px;
+
+                height: 44px;
+
+                bottom: 15px;
+
+                left: 15px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         DECORATION
+    ===================================================== -->
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
+
+    <header>
+
+        <div class="hero">
+
+            <div class="hero-text">
+
+                <div class="academy-badge">
+                    <i></i>
+                    PYTHON • PROGRAMMING ACADEMY
+                </div>
+
+                <h1>
+                    أتقن
+                    <span>القوائم</span>
+                    في Python
+                </h1>
+
+                <p class="hero-description">
+
+                    دورة مصغّرة تشرح لك Lists في Python
+                    من الصفر حتى المفاهيم المتقدمة،
+                    مع أمثلة عملية، جداول، تمارين،
+                    أخطاء شائعة واختبار تفاعلي.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="#intro"
+                        class="btn btn-primary">
+
+                        ابدأ الدرس
+                        ←
+
+                    </a>
+
+                    <a
+                        href="#quiz"
+                        class="btn btn-secondary">
+
+                        اختبر نفسك
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- CODE WINDOW -->
+
+            <div class="code-window">
+
+                <div class="window-bar">
+
+                    <div class="dots">
+
+                        <i></i>
+                        <i></i>
+                        <i></i>
+
+                    </div>
+
+                    <span class="file-name">
+                        lists.py
+                    </span>
+
+                </div>
+
+
+                <div class="hero-code"><span class="gold-code">students</span> = [
+    <span class="green-code">"Ali"</span>,
+    <span class="green-code">"Sara"</span>,
+    <span class="green-code">"Omar"</span>
+]
+
+<span class="blue-code">students</span>.append(<span class="green-code">"Lina"</span>)
+
+<span class="gold-code">for</span> student <span class="gold-code">in</span> students:
+    print(student)</div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ===================================================== -->
+
+    <nav id="mainNav">
+
+        <a href="#intro" class="active">
+            المقدمة
+        </a>
+
+        <a href="#create">
+            الإنشاء
+        </a>
+
+        <a href="#index">
+            Index
+        </a>
+
+        <a href="#modify">
+            التعديل
+        </a>
+
+        <a href="#methods">
+            الدوال
+        </a>
+
+        <a href="#slice">
+            Slicing
+        </a>
+
+        <a href="#nested">
+            Nested
+        </a>
+
+        <a href="#comprehension">
+            Comprehension
+        </a>
+
+        <a href="#examples">
+            الأمثلة
+        </a>
+
+        <a href="#practice">
+            التطبيق
+        </a>
+
+        <a href="#quiz">
+            الاختبار
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main>
+
+
+        <!-- =====================================================
+             00 INTRO
+        ===================================================== -->
+
+        <section
+            id="intro"
+            class="intro">
+
+            <span class="tag">
+                PYTHON LISTS
+            </span>
+
+            <h2>
+                ما هي القائمة List؟
+            </h2>
+
+            <p>
+
+                الـ List هي واحدة من أهم هياكل البيانات
+                في Python. تسمح لك بتخزين عدة قيم داخل
+                متغير واحد، ويمكن تعديل عناصرها وإضافة
+                عناصر جديدة وحذفها وترتيبها.
+
+            </p>
+
+
+            <div class="code-block">
+
+                <pre><code>students = ["Ali", "Sara", "Omar"]</code></pre>
+
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <strong>[ ]</strong>
+                    <span>رمز إنشاء القائمة</span>
+                </div>
+
+                <div class="info-box">
+                    <strong>0</strong>
+                    <span>أول Index</span>
+                </div>
+
+                <div class="info-box">
+                    <strong>Mutable</strong>
+                    <span>قابلة للتعديل</span>
+                </div>
+
+                <div class="info-box">
+                    <strong>Ordered</strong>
+                    <span>تحافظ على الترتيب</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WHY LIST
+        ===================================================== -->
+
+        <section id="why">
+
+            <div class="section-number">
+                01
+            </div>
+
+            <h2>
+                لماذا نستخدم القوائم؟
+            </h2>
+
+            <p>
+
+                بدلاً من إنشاء متغير منفصل لكل قيمة،
+                تستطيع جمع القيم المرتبطة ببعضها في
+                قائمة واحدة.
+
+            </p>
+
+
+            <div class="concept-grid">
+
+                <div class="concept">
+
+                    <div class="concept-icon">
+                        📦
+                    </div>
+
+                    <h3>
+                        تخزين البيانات
+                    </h3>
+
+                    <p>
+                        حفظ عدة قيم داخل متغير واحد.
+                    </p>
+
+                </div>
+
+
+                <div class="concept">
+
+                    <div class="concept-icon">
+                        🔄
+                    </div>
+
+                    <h3>
+                        التكرار
+                    </h3>
+
+                    <p>
+                        المرور على العناصر باستخدام loops.
+                    </p>
+
+                </div>
+
+
+                <div class="concept">
+
+                    <div class="concept-icon">
+                        ✏️
+                    </div>
+
+                    <h3>
+                        التعديل
+                    </h3>
+
+                    <p>
+                        تغيير العناصر وإضافة وحذف البيانات.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             02 CREATE
+        ===================================================== -->
+
+        <section id="create">
+
+            <div class="section-number">
+                02
+            </div>
+
+            <h2>
+                إنشاء القائمة
+            </h2>
+
+            <p>
+
+                نستخدم الأقواس المربعة
+                <strong>[ ]</strong>
+                لإنشاء List.
+
+            </p>
+
+
+            <div class="code-block">
+
+                <button class="copy-code">
+                    نسخ
+                </button>
+
+                <pre><code>numbers = [10, 20, 30, 40]</code></pre>
+
+            </div>
+
+
+            <h3>
+                قائمة نصوص
+            </h3>
+
+            <pre><code>names = ["Ahmad", "Sara", "Lina"]</code></pre>
+
+
+            <h3>
+                قائمة أرقام
+            </h3>
+
+            <pre><code>numbers = [5, 10, 15, 20]</code></pre>
+
+
+            <h3>
+                قائمة فارغة
+            </h3>
+
+            <pre><code>items = []</code></pre>
+
+
+            <h3>
+                أنواع مختلفة
+            </h3>
+
+            <pre><code>data = ["Python", 20, True, 3.14]</code></pre>
+
+
+            <div class="note">
+
+                <span class="note-icon">
+                    💡
+                </span>
+
+                <span>
+
+                    يمكن للقائمة أن تحتوي على أكثر من نوع
+                    من البيانات، لكن في المشاريع الحقيقية
+                    من الأفضل أن تكون البيانات منظمة ومنطقية
+                    حسب استخدام القائمة.
+
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             03 INDEX
+        ===================================================== -->
+
+        <section id="index">
+
+            <div class="section-number">
+                03
+            </div>
+
+            <h2>
+                فهم الـ Index
+            </h2>
+
+            <p>
+
+                Python تبدأ العد من
+                <strong>0</strong>
+                وليس من 1.
+
+            </p>
+
+
+            <div class="index-visual">
+
+                <div class="index-item">
+
+                    <div class="index-number">
+                        Index 0
+                    </div>
+
+                    <div class="index-value">
+                        Apple
+                    </div>
+
+                </div>
+
+
+                <div class="index-item">
+
+                    <div class="index-number">
+                        Index 1
+                    </div>
+
+                    <div class="index-value">
+                        Banana
+                    </div>
+
+                </div>
+
+
+                <div class="index-item">
+
+                    <div class="index-number">
+                        Index 2
+                    </div>
+
+                    <div class="index-value">
+                        Orange
+                    </div>
+
+                </div>
+
+
+                <div class="index-item">
+
+                    <div class="index-number">
+                        Index 3
+                    </div>
+
+                    <div class="index-value">
+                        Mango
+                    </div>
+
+                </div>
+
+
+                <div class="index-item">
+
+                    <div class="index-number">
+                        Index 4
+                    </div>
+
+                    <div class="index-value">
+                        Kiwi
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <pre><code>fruits = ["Apple", "Banana", "Orange"]
+
+print(fruits[0])
+print(fruits[1])
+print(fruits[2])</code></pre>
+
+
+            <h3>
+                الفهرسة السالبة
+            </h3>
+
+            <p>
+
+                يمكن الوصول إلى العناصر من النهاية
+                باستخدام Index سالب.
+
+            </p>
+
+            <pre><code>fruits = ["Apple", "Banana", "Orange"]
+
+print(fruits[-1])  # Orange
+print(fruits[-2])  # Banana</code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             04 MODIFY
+        ===================================================== -->
+
+        <section id="modify">
+
+            <div class="section-number">
+                04
+            </div>
+
+            <h2>
+                تعديل عناصر القائمة
+            </h2>
+
+            <p>
+
+                لأن List قابلة للتعديل
+                <strong>Mutable</strong>،
+                نستطيع تغيير قيمة أي عنصر.
+
+            </p>
+
+            <pre><code>names = ["Ali", "Sara", "Omar"]
+
+names[1] = "Lina"
+
+print(names)</code></pre>
+
+
+            <div class="note">
+
+                <span class="note-icon">
+                    🔑
+                </span>
+
+                <span>
+
+                    نحدد العنصر باستخدام الـ Index
+                    ثم نعطيه قيمة جديدة.
+
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             05 ADD DELETE
+        ===================================================== -->
+
+        <section id="add-delete">
+
+            <div class="section-number">
+                05
+            </div>
+
+            <h2>
+                إضافة وحذف العناصر
+            </h2>
+
+
+            <div class="method-grid">
+
+                <div class="method">
+
+                    <span class="method-name">
+                        append()
+                    </span>
+
+                    <p>
+                        يضيف عنصراً في نهاية القائمة.
+                    </p>
+
+                    <pre><code>names.append("Omar")</code></pre>
+
+                </div>
+
+
+                <div class="method">
+
+                    <span class="method-name">
+                        insert()
+                    </span>
+
+                    <p>
+                        يضيف عنصراً في Index محدد.
+                    </p>
+
+                    <pre><code>names.insert(1, "Sara")</code></pre>
+
+                </div>
+
+
+                <div class="method">
+
+                    <span class="method-name">
+                        remove()
+                    </span>
+
+                    <p>
+                        يحذف أول عنصر يطابق القيمة.
+                    </p>
+
+                    <pre><code>names.remove("Sara")</code></pre>
+
+                </div>
+
+
+                <div class="method">
+
+                    <span class="method-name">
+                        pop()
+                    </span>
+
+                    <p>
+                        يحذف عنصراً حسب Index ويعيد قيمته.
+                    </p>
+
+                    <pre><code>deleted = names.pop(1)</code></pre>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             06 METHODS
+        ===================================================== -->
+
+        <section id="methods">
+
+            <div class="section-number">
+                06
+            </div>
+
+            <h2>
+                أهم الدوال والعمليات
+            </h2>
+
+            <div class="table-scroll">
+
+                <table>
+
+                    <tr>
+                        <th>الأمر</th>
+                        <th>الوظيفة</th>
+                        <th>مثال</th>
+                    </tr>
+
+                    <tr>
+                        <td>append()</td>
+                        <td>إضافة في النهاية</td>
+                        <td>list.append(5)</td>
+                    </tr>
+
+                    <tr>
+                        <td>insert()</td>
+                        <td>إضافة في مكان معين</td>
+                        <td>list.insert(1, 5)</td>
+                    </tr>
+
+                    <tr>
+                        <td>remove()</td>
+                        <td>حذف قيمة</td>
+                        <td>list.remove(5)</td>
+                    </tr>
+
+                    <tr>
+                        <td>pop()</td>
+                        <td>حذف حسب Index</td>
+                        <td>list.pop(0)</td>
+                    </tr>
+
+                    <tr>
+                        <td>sort()</td>
+                        <td>ترتيب القائمة</td>
+                        <td>list.sort()</td>
+                    </tr>
+
+                    <tr>
+                        <td>reverse()</td>
+                        <td>عكس القائمة</td>
+                        <td>list.reverse()</td>
+                    </tr>
+
+                    <tr>
+                        <td>len()</td>
+                        <td>عدد العناصر</td>
+                        <td>len(list)</td>
+                    </tr>
+
+                    <tr>
+                        <td>count()</td>
+                        <td>عدد مرات تكرار قيمة</td>
+                        <td>list.count(5)</td>
+                    </tr>
+
+                    <tr>
+                        <td>index()</td>
+                        <td>معرفة موقع قيمة</td>
+                        <td>list.index(5)</td>
+                    </tr>
+
+                    <tr>
+                        <td>clear()</td>
+                        <td>تفريغ القائمة</td>
+                        <td>list.clear()</td>
+                    </tr>
+
+                    <tr>
+                        <td>copy()</td>
+                        <td>نسخ القائمة</td>
+                        <td>list.copy()</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             07 SLICING
+        ===================================================== -->
+
+        <section id="slice">
+
+            <div class="section-number">
+                07
+            </div>
+
+            <h2>
+                Slicing — تقطيع القائمة
+            </h2>
+
+            <p>
+
+                الـ Slicing يسمح لك بأخذ جزء من القائمة
+                دون الحاجة إلى أخذ كل العناصر.
+
+            </p>
+
+
+            <pre><code>numbers = [10, 20, 30, 40, 50]
+
+print(numbers[1:4])
+
+# الناتج:
+[20, 30, 40]</code></pre>
+
+
+            <div class="concept-grid">
+
+                <div class="concept">
+
+                    <div class="concept-icon">
+                        ✂️
+                    </div>
+
+                    <h3>
+                        البداية والنهاية
+                    </h3>
+
+                    <p>
+                        <code>list[start:end]</code>
+                    </p>
+
+                </div>
+
+
+                <div class="concept">
+
+                    <div class="concept-icon">
+                        ⏩
+                    </div>
+
+                    <h3>
+                        Step
+                    </h3>
+
+                    <p>
+                        <code>list[start:end:step]</code>
+                    </p>
+
+                </div>
+
+
+                <div class="concept">
+
+                    <div class="concept-icon">
+                        🔙
+                    </div>
+
+                    <h3>
+                        عكس القائمة
+                    </h3>
+
+                    <p>
+                        <code>numbers[::-1]</code>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <pre><code>numbers = [10, 20, 30, 40, 50]
+
+print(numbers[::2])
+
+# [10, 30, 50]</code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             08 LOOP
+        ===================================================== -->
+
+        <section id="loop">
+
+            <div class="section-number">
+                08
+            </div>
+
+            <h2>
+                القوائم مع For Loop
+            </h2>
+
+            <p>
+
+                واحدة من أكثر الاستخدامات شيوعاً للقوائم
+                هي المرور على جميع عناصرها.
+
+            </p>
+
+            <pre><code>fruits = ["Apple", "Banana", "Orange"]
+
+for fruit in fruits:
+    print(fruit)</code></pre>
+
+
+            <h3>
+                استخدام enumerate()
+            </h3>
+
+            <p>
+
+                إذا أردت الحصول على الـ Index والعنصر
+                معاً، يمكنك استخدام enumerate().
+
+            </p>
+
+            <pre><code>fruits = ["Apple", "Banana", "Orange"]
+
+for index, fruit in enumerate(fruits):
+    print(index, fruit)</code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             09 SEARCH
+        ===================================================== -->
+
+        <section id="search">
+
+            <div class="section-number">
+                09
+            </div>
+
+            <h2>
+                البحث داخل القائمة
+            </h2>
+
+            <pre><code>names = ["Ali", "Sara", "Omar"]
+
+if "Sara" in names:
+    print("Sara موجودة")</code></pre>
+
+
+            <h3>
+                not in
+            </h3>
+
+            <pre><code>if "Lina" not in names:
+    print("Lina غير موجودة")</code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             10 NESTED
+        ===================================================== -->
+
+        <section id="nested">
+
+            <div class="section-number">
+                10
+            </div>
+
+            <h2>
+                القوائم المتداخلة Nested Lists
+            </h2>
+
+            <p>
+
+                يمكن أن تحتوي القائمة على قوائم أخرى.
+                وهذا مفيد لتمثيل الجداول والبيانات
+                متعددة الأبعاد.
+
+            </p>
+
+
+            <pre><code>students = [
+    ["Ali", 90],
+    ["Sara", 95],
+    ["Omar", 88]
+]
+
+print(students[0][0])
+print(students[1][1])</code></pre>
+
+
+            <div class="nested-visual">
+
+                <div class="nested-card">
+
+                    <h3>
+                        students[0]
+                    </h3>
+
+                    <p>
+                        أول قائمة داخل القائمة الرئيسية.
+                    </p>
+
+                    <pre><code>["Ali", 90]</code></pre>
+
+                </div>
+
+
+                <div class="nested-card">
+
+                    <h3>
+                        students[0][0]
+                    </h3>
+
+                    <p>
+                        أول عنصر داخل أول قائمة.
+                    </p>
+
+                    <pre><code>"Ali"</code></pre>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             11 COMPREHENSION
+        ===================================================== -->
+
+        <section id="comprehension">
+
+            <div class="section-number">
+                11
+            </div>
+
+            <h2>
+                List Comprehension
+            </h2>
+
+            <p>
+
+                طريقة مختصرة وقوية لإنشاء القوائم
+                باستخدام تعبير واحد.
+
+            </p>
+
+
+            <div class="special-box">
+
+                <h3>
+                    مثال بسيط
+                </h3>
+
+                <p>
+
+                    بدلاً من كتابة حلقة كاملة،
+                    يمكن إنشاء قائمة جديدة بطريقة مختصرة.
+
+                </p>
+
+                <pre><code>squares = [x * x for x in range(1, 6)]
+
+print(squares)
+
+# [1, 4, 9, 16, 25]</code></pre>
+
+            </div>
+
+
+            <h3>
+                مع شرط
+            </h3>
+
+            <pre><code>numbers = [1, 2, 3, 4, 5, 6]
+
+even = [
+    x for x in numbers
+    if x % 2 == 0
+]
+
+print(even)</code></pre>
+
+
+            <div class="note">
+
+                <span class="note-icon">
+                    ⚡
+                </span>
+
+                <span>
+
+                    List Comprehension قوية جداً،
+                    لكن لا تستخدمها بطريقة تجعل الكود
+                    صعب القراءة. وضوح الكود أهم من اختصاره.
+
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             12 COPY
+        ===================================================== -->
+
+        <section id="copy">
+
+            <div class="section-number">
+                12
+            </div>
+
+            <h2>
+                نسخ القوائم
+            </h2>
+
+            <p>
+
+                يجب الانتباه عند نسخ القوائم حتى لا تعدّل
+                القائمة الأصلية عن طريق الخطأ.
+
+            </p>
+
+
+            <pre><code>numbers = [1, 2, 3]
+
+copy_numbers = numbers.copy()
+
+copy_numbers.append(4)
+
+print(numbers)
+print(copy_numbers)</code></pre>
+
+
+            <div class="comparison">
+
+                <div class="compare-card">
+
+                    <h3>
+                        ❌ تجنب
+                    </h3>
+
+                    <pre><code>copy = numbers</code></pre>
+
+                    <p>
+                        هنا المتغيران يشيران إلى نفس القائمة.
+                    </p>
+
+                </div>
+
+
+                <div class="compare-card highlight">
+
+                    <h3>
+                        ✓ الأفضل
+                    </h3>
+
+                    <pre><code>copy = numbers.copy()</code></pre>
+
+                    <p>
+                        إنشاء نسخة مستقلة من القائمة.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             13 SORT
+        ===================================================== -->
+
+        <section id="sort">
+
+            <div class="section-number">
+                13
+            </div>
+
+            <h2>
+                ترتيب القوائم
+            </h2>
+
+            <pre><code>numbers = [5, 1, 8, 2, 3]
+
+numbers.sort()
+
+print(numbers)</code></pre>
+
+
+            <h3>
+                ترتيب تنازلي
+            </h3>
+
+            <pre><code>numbers.sort(reverse=True)</code></pre>
+
+
+            <h3>
+                sorted()
+            </h3>
+
+            <p>
+
+                الفرق المهم أن sorted() ترجع قائمة جديدة
+                ولا تعدّل القائمة الأصلية.
+
+            </p>
+
+            <pre><code>numbers = [5, 2, 8, 1]
+
+new_numbers = sorted(numbers)
+
+print(new_numbers)</code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             14 ERRORS
+        ===================================================== -->
+
+        <section id="errors">
+
+            <div class="section-number">
+                14
+            </div>
+
+            <h2>
+                أخطاء شائعة عند استخدام Lists
+            </h2>
+
+
+            <div class="error-grid">
+
+                <div class="error-card">
+
+                    <strong>
+                        IndexError
+                    </strong>
+
+                    <p>
+                        محاولة الوصول إلى Index غير موجود.
+                    </p>
+
+                    <code>
+                        numbers[10]
+                    </code>
+
+                </div>
+
+
+                <div class="error-card">
+
+                    <strong>
+                        ValueError
+                    </strong>
+
+                    <p>
+                        محاولة حذف قيمة غير موجودة باستخدام remove().
+                    </p>
+
+                    <code>
+                        numbers.remove(100)
+                    </code>
+
+                </div>
+
+
+                <div class="error-card">
+
+                    <strong>
+                        TypeError
+                    </strong>
+
+                    <p>
+                        استخدام نوع بيانات بطريقة غير مناسبة.
+                    </p>
+
+                    <code>
+                        numbers + 5
+                    </code>
+
+                </div>
+
+
+                <div class="error-card">
+
+                    <strong>
+                        خطأ منطقي
+                    </strong>
+
+                    <p>
+                        استخدام Index خاطئ رغم أن الكود يعمل.
+                    </p>
+
+                    <code>
+                        names[1]
+                    </code>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             15 LIST VS TUPLE
+        ===================================================== -->
+
+        <section id="tuple">
+
+            <div class="section-number">
+                15
+            </div>
+
+            <h2>
+                List أم Tuple؟
+            </h2>
+
+            <p>
+
+                من المهم معرفة الفرق بين أشهر بنيتين
+                لتخزين البيانات في Python.
+
+            </p>
+
+
+            <div class="comparison">
+
+                <div class="compare-card highlight">
+
+                    <h3>
+                        List
+                    </h3>
+
+                    <pre><code>numbers = [1, 2, 3]</code></pre>
+
+                    <ul>
+
+                        <li>
+                            قابلة للتعديل
+                        </li>
+
+                        <li>
+                            تستخدم [ ]
+                        </li>
+
+                        <li>
+                            مناسبة للبيانات المتغيرة
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="compare-card">
+
+                    <h3>
+                        Tuple
+                    </h3>
+
+                    <pre><code>numbers = (1, 2, 3)</code></pre>
+
+                    <ul>
+
+                        <li>
+                            غير قابلة للتعديل
+                        </li>
+
+                        <li>
+                            تستخدم ( )
+                        </li>
+
+                        <li>
+                            مناسبة للبيانات الثابتة
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             16 EXAMPLES
+        ===================================================== -->
+
+        <section id="examples">
+
+            <div class="section-number">
+                16
+            </div>
+
+            <h2>
+                أمثلة عملية
+            </h2>
+
+
+            <div class="example-grid">
+
+
+                <div class="example-card">
+
+                    <div class="example-number">
+                        01
+                    </div>
+
+                    <h3>
+                        حساب مجموع الأرقام
+                    </h3>
+
+                    <pre><code>numbers = [10, 20, 30]
+
+print(sum(numbers))</code></pre>
+
+                </div>
+
+
+                <div class="example-card">
+
+                    <div class="example-number">
+                        02
+                    </div>
+
+                    <h3>
+                        أكبر رقم
+                    </h3>
+
+                    <pre><code>numbers = [10, 50, 20]
+
+print(max(numbers))</code></pre>
+
+                </div>
+
+
+                <div class="example-card">
+
+                    <div class="example-number">
+                        03
+                    </div>
+
+                    <h3>
+                        أصغر رقم
+                    </h3>
+
+                    <pre><code>numbers = [10, 50, 20]
+
+print(min(numbers))</code></pre>
+
+                </div>
+
+
+                <div class="example-card">
+
+                    <div class="example-number">
+                        04
+                    </div>
+
+                    <h3>
+                        حساب المتوسط
+                    </h3>
+
+                    <pre><code>numbers = [10, 20, 30]
+
+average = sum(numbers) / len(numbers)
+
+print(average)</code></pre>
+
+                </div>
+
+
+                <div class="example-card">
+
+                    <div class="example-number">
+                        05
+ 
